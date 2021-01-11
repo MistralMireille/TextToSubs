@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<style>
+	 .flex-container {
+			display: flex;
+			justify-content: center;
+		}
+		.flex-container-vertical {
+			flex-direction: column;		
+		}
+	</style>
+	</head>
+	<body>
+		<div style="display: flex; flex-direction: column; justify-content: center">
+			<div style="display: flex; flex-direction: row">
+				<p style="width: 80%; margin: 0; font-size: 20px">TextToSubs</p>
+				<a href="https://mistralmireille.github.io" target="_blank" rel="noopener noreferrer" style="margin: 0; width: 20%">
+					<button id="help-button" style="width: 100%; border: 2px solid black">Help</button>
+				</a>
+			</div>
+			<textarea id="text-area" style="height: 400px" width="100%" cols="50"></textarea>
+			<div class="flex-container">
+				<button id="add-button">Add subs to the video.</button>
+				<button id="compress-text">Compress current text.</button>
+				<button id="decompress-text">Decompress current text.</button>
+				<button id="test" style="background-color: red">Found nothing.</button>
+			</div>
+			<div class="flex-container flex-container-vertical" id="found-subs">
+				
+			</div>
+			<p id="error-text" style="color: red; display: none;">X  The content script is already loaded into the page.<br>Reload the page if you need to load different subs.<br>Reloading will also clear the subs that are already there.</p>
+		</div>
+	</body>
+	<script src="lz_string.js"></script>
+	<script src="popup.js"></script>
+</html>

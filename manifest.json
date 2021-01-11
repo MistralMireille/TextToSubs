@@ -1,0 +1,32 @@
+{
+	"name": "TextToSubs",
+	"version": "1.0",
+	"description": "Load subs into a YouTube video using text.",
+	"manifest_version": 2,
+	"background": {
+		"scripts": ["background.js"],
+		"persistent": true
+	},
+	"page_action": {
+		"default_popup": "popup.html",
+		"default_icon": {
+			"16": "icons/icon16.png",
+			"32": "icons/icon32.png",
+			"48": "icons/icon48.png",
+			"128": "icons/icon128.png"
+		}
+	},
+	"permissions": [
+		"activeTab",
+		"tabs",
+		"webNavigation",
+		"https://github.com/MistralMireille/mistralmireille.github.io/tree/master/links*",
+		"https://raw.githubusercontent.com/MistralMireille/mistralmireille.github.io/master/links/*"
+	],
+	"icons": {
+		"16": "icons/icon16.png",
+		"32": "icons/icon32.png",
+		"48": "icons/icon48.png",
+		"128": "icons/icon128.png"
+	}
+}

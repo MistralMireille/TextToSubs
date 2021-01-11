@@ -2,25 +2,9 @@ var text_content = "";
 var sub_list = [];
 var sub_list_checked = false;
 
-function parseDom(dom) {
-	let grid = dom.querySelectorAll("div[role='grid'] > div[role='row'] > div[role='rowheader'] > span > a[title]");
-	if(grid && grid.length > 0) {
-		let ids = [];
-		let i;
-		for(i = 0; i < grid.length; i++) {
-			let temp = grid[i].innerText;
-			temp = temp.substring(0, temp.length - 4);
-			ids.push(temp); 
-		}
-		console.log(ids);
-		return ids;
-	}
-}
-
 function getSubList(tabId, current_id) {
 	let xml = new XMLHttpRequest();
 	function reqListener() {
-		//sub_list = parseDom(this.response);
 		let response = JSON.parse(this.response);
 		let i;
 		for(i = 0; i < response.length; i++) {

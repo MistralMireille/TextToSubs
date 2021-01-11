@@ -19,9 +19,7 @@
 	"permissions": [
 		"activeTab",
 		"tabs",
-		"webNavigation",
-		"https://github.com/MistralMireille/mistralmireille.github.io/tree/master/links*",
-		"https://raw.githubusercontent.com/MistralMireille/mistralmireille.github.io/master/links/*"
+		"webNavigation"
 	],
 	"icons": {
 		"16": "icons/icon16.png",

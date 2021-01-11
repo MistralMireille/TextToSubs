@@ -20,14 +20,18 @@ function parseDom(dom) {
 function getSubList(tabId, current_id) {
 	let xml = new XMLHttpRequest();
 	function reqListener() {
-		sub_list = parseDom(this.response);
+		//sub_list = parseDom(this.response);
+		let response = JSON.parse(this.response);
+		let i;
+		for(i = 0; i < response.length; i++) {
+			sub_list.push(response[0].name.split("\n")[0]);
+		}
 		sub_list_checked = true;
 		if(sub_list.includes(current_id)) chrome.pageAction.setIcon({tabId: tabId, path: 'icons/foundStuff.png'});
 		chrome.runtime.sendMessage({com: "justChecked"});
 	}
 	xml.addEventListener('load', reqListener);
-	xml.open('GET', "https://github.com/MistralMireille/mistralmireille.github.io/tree/master/links"); 
-	xml.responseType = "document";
+	xml.open('GET', "https://api.github.com/repos/MistralMireille/mistralmireille.github.io/contents/links"); 
 	xml.send();
 }
 

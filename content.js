@@ -60,6 +60,7 @@ function verify_file(s) {
 	return true;
 }
 
+/*
 function removeDangerousHTML(ele) {
 	let HTMLEvents = my_array = ["onafterprint", "onbeforeprint", "onbeforeunload", "onerror", "onhashchange", "onload", "onmessage", "onoffline", "ononline", "onpagehide", "onpageshow", "onpopstate", "onresize", "onstorage", "onunload", "onblur", "onchange", "oncontextmenu", "onfocus", "oninput", "oninvalid", "onreset", "onsearch", "onselect", "onsubmit", "onkeydown", "onkeypress", "onkeyup", "onclick", "ondblclick", "onmousedown", "onmousemove", "onmouseout", "onmouseover", "onmouseup", "onmousewheel", "onwheel", "ondrag", "ondragend", "ondragenter", "ondragleave", "ondragover", "ondragstart", "ondrop", "onscroll", "oncopy", "oncut", "onpaste", "onabort", "oncanplay", "oncanplaythrough", "oncuechange", "ondurationchange", "onemptied", "onended", "onerror", "onloadeddata", "onloadedmetadata", "onloadstart", "onpause", "onplay", "onplaying", "onprogress", "onratechange", "onseeked", "onseeking", "onstalled", "onsuspend", "ontimeupdate", "onvolumechange", "onwaiting", "ontoggle"];
 	[].forEach.call(ele.querySelectorAll("*"), function(e) { 
@@ -77,6 +78,7 @@ function removeDangerousHTML(ele) {
 		}
  });	
 }
+*/
 
 function populate_drivers(file_as_string) {
 	let string_array;
@@ -93,6 +95,7 @@ function populate_drivers(file_as_string) {
 			start = time_to_int(string_array[i].split("\n")[0].split(" ")[0]);
 			end = time_to_int(string_array[i].split("\n")[0].split(" ")[1]);
 			
+			/*
 			if(string_array[i].split("\n")[1].startsWith("<")) {
 				ele = document.createElement("DIV");
 				ele.style.width = "inherit";
@@ -110,6 +113,14 @@ function populate_drivers(file_as_string) {
 			}
 			ele.innerHTML=string_array[i].split("\n")[1].replace("\\n", "<br>");
 			if(ele.tagName === "DIV") removeDangerousHTML(ele);
+			*/
+			ele = document.createElement("P");
+			ele.style.bottom = "1%";
+			ele.style.color="white";
+			ele.style.backgroundColor="rgba(0,0,0,0.5)";
+			ele.style.fontSize="2.5em"; // was 60px
+			ele.style.maxWidth="95%";
+			ele.innerText=string_array[i].split("\n")[1].replace("\\n", "<br>");
 			
 			element_drivers.push(new Element_Driver(ele, start, end));
 		} else {

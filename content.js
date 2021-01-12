@@ -81,7 +81,8 @@ function populate_drivers(file_as_string) {
 			ele.style.backgroundColor="rgba(0,0,0,0.5)";
 			ele.style.fontSize="2.5em"; // was 60px
 			ele.style.maxWidth="95%";
-			ele.innerText=string_array[i].split("\n")[1].replace("\\n", "<br>");
+			ele.style.whiteSpace="pre-wrap";
+			ele.textContent=string_array[i].split("\n")[1].replace("<br>", "\n").replace("\\n", "\n");
 			
 			element_drivers.push(new Element_Driver(ele, start, end));
 		} else {

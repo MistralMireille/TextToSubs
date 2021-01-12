@@ -21,18 +21,10 @@ function addElement(e) {
 	e.style.zIndex = "60";
 	video_player.append(e);
 	
-	let count = 0;
-	let start_center = e.style.left;
-	let changing_center;
-	centerElementHorizontally(e, video_player);
-	if(e.firstElementChild && e.firstElementChild.hasAttribute("centered")) centerElementHorizontally(e.firstElementChild, video_player);
-	my_inter = setInterval(function() { 
-		centerElementHorizontally(e, video_player);
-		if(e.firstElementChild && e.firstElementChild.hasAttribute("centered")) centerElementHorizontally(e.firstElementChild, video_player);
-		count += 1;
-		changing_center = e.style.left;
-		if(start_center != changing_center || count > 10)	clearInterval(my_inter); 
-	}, 100);
+	let i;
+	for(i = 0; i < 10; i++) {
+		centerElementHorizontally(e, e.parentElement);
+	}
 	document.addEventListener('fullscreenchange', function() { centerElementHorizontally(e, video_player); }, false);
 }
 
@@ -55,7 +47,7 @@ function verify_file(s) {
 	let time1 = test_array[0].split(" ")[0];
 	let time2 = test_array[0].split(" ")[1];
 	let content = test_array[1];
- if(isNaN(parseInt(time_to_int(time1)))) return false;
+	if(isNaN(parseInt(time_to_int(time1)))) return false;
 	if(isNaN(parseInt(time_to_int(time2)))) return false;
 	return true;
 }
@@ -67,13 +59,17 @@ function populate_drivers(file_as_string) {
 	let i;
 	
 	for(i = 0; i < string_array.length; i++) {
-		let verified = verify_file(string_array[i]);
+		let s = string_array[i];
+		if(s.split("\n").length === 3 && s.split("\n")[0].match(/^[1-9][0-9]*$/)) { // could be srt file
+			s = s.split("\n")[1] + "\n" + s.split("\n")[2];
+		}
+		let verified = verify_file(s);
 		if(verified) {
 			let ele;
 			let start;
 			let end;
-			start = time_to_int(string_array[i].split("\n")[0].split(" ")[0]);
-			end = time_to_int(string_array[i].split("\n")[0].split(" ")[1]);
+			start = time_to_int(s.split("\n")[0].split(" ")[0]);
+			end = time_to_int(s.split("\n")[0].split(" ")[1]);
 			
 			ele = document.createElement("P");
 			ele.style.bottom = "1%";
@@ -82,7 +78,17 @@ function populate_drivers(file_as_string) {
 			ele.style.fontSize="2.5em"; // was 60px
 			ele.style.maxWidth="95%";
 			ele.style.whiteSpace="pre-wrap";
-			ele.textContent=string_array[i].split("\n")[1].replace("<br>", "\n").replace("\\n", "\n");
+			ele.style.textAlign="center";
+			let text_to_display = s.split("\n")[1].replace(/<br>/g, "\n").replace(/\\n/g, "\n");
+			let colors = text_to_display.match(/<#[0-9a-fA-F]{6}>/);
+			if(colors && colors.length > 0) {
+				let found_color;
+				found_color = colors[0].replace("<", "");
+				found_color = found_color.replace(">", "").toLowerCase();
+				ele.style.color=found_color;
+				text_to_display = text_to_display.replace(/<#[0-9a-fA-F]{6}>/g, "");
+			}
+			ele.innerText= text_to_display;
 			
 			element_drivers.push(new Element_Driver(ele, start, end));
 		} else {

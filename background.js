@@ -8,7 +8,7 @@ function getSubList(tabId, current_id) {
 		let response = JSON.parse(this.response);
 		let i;
 		for(i = 0; i < response.length; i++) {
-			sub_list.push(response[0].name.split("\n")[0]);
+			sub_list.push(response[i].name.split(".txt")[0]);
 		}
 		sub_list_checked = true;
 		if(sub_list.includes(current_id)) chrome.pageAction.setIcon({tabId: tabId, path: 'icons/foundStuff.png'});

@@ -136,7 +136,7 @@ function main_loop() {
 		} else if(!element_drivers[i].active(counter) && element_drivers[i].shown) {
 			element_drivers[i].shown = false;
 			element_drivers[i].ele.remove();
-			element_drivers[i].ele.style.bottom= (0.01 * video_player.offsetHeight) + "px";
+			element_drivers[i].ele.style.bottom = (-1 * screen.height) + "px";
 			
 			if(active_elements.length > 0 && active_elements.includes(i)) {
 				element_drivers[i].moved_height = 0;
@@ -176,7 +176,10 @@ function main_loop_mobile() {
 		} else if(!element_drivers[i].active(counter) && element_drivers[i].shown) {
 			element_drivers[i].shown = false;
 			element_drivers[i].ele.remove();
-			element_drivers[i].ele.style.bottom= "-1000px";
+			if(screen.height > screen.width)
+				element_drivers[i].ele.style.bottom = (-1 * screen.height) + "px";
+			else
+				element_drivers[i].ele.style.bottom = (-1 * screen.width) + "px";
 			
 			if(active_elements.length > 0 && active_elements.includes(i)) {
 				element_drivers[i].moved_height = 0;

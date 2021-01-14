@@ -90,6 +90,7 @@ function checkGitFile() {
 			pastebin_notice_div.style.width="100%";
 			pastebin_notice_div.append(pastebin_notice);
 			
+			text = text.replace(/\r/gm, "");
 			let items = text.split("\n\n");
 			let i;
 			for(i = 0; i < items.length; i++) {

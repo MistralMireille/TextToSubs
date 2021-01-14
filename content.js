@@ -5,6 +5,7 @@ let fade;
 let time_bar;
 let bar_down = false;
 let element_drivers = [];
+let active_elements = [];
 
 function Element_Driver(ele, start, end) {
 	this.ele = ele;
@@ -14,26 +15,19 @@ function Element_Driver(ele, start, end) {
 		return (time >= this.start && time < this.end);		
 	}
 	this.shown = false;
+	this.moved_height = 0;
 }
 
 function addElement(e) {
 	e.style.position = "absolute";
 	e.style.zIndex = "60";
 	video_player.append(e);
-	
-	let i;
-	for(i = 0; i < 10; i++) {
-		centerElementHorizontally(e, e.parentElement);
-	}
-	document.addEventListener('fullscreenchange', function() { centerElementHorizontally(e, video_player); }, false);
 }
 
 function centerElementHorizontally(e, p) {
-	e.style.left = ((p.offsetWidth/2 - e.offsetWidth/2) / p.offsetWidth) * 100 + "%";
-}
-	
-function centerElementVertically(e, p) {
-	e.style.top = ((p.offsetHeight/2 - e.offsetHeight/2) / p.offsetHeight) * 100 + "%";
+	let e_width = e.getBoundingClientRect().width;
+	let p_width = p.getBoundingClientRect().width;
+	e.style.left = (((p_width/2 - e_width/2) / p_width) * 100) + "%";
 }
 
 function time_to_int(s) {
@@ -79,6 +73,7 @@ function populate_drivers(file_as_string) {
 			ele.style.maxWidth="95%";
 			ele.style.whiteSpace="pre-wrap";
 			ele.style.textAlign="center";
+			ele.style.transition="all 0.1s";
 			let text_to_display = s.split("\n")[1].replace(/<br>/g, "\n").replace(/\\n/g, "\n");
 			let colors = text_to_display.match(/<#[0-9a-fA-F]{6}>/);
 			if(colors && colors.length > 0) {
@@ -103,6 +98,18 @@ function populate_drivers(file_as_string) {
 	console.log(element_drivers);
 }
 
+function fix_active_elements() {
+	let i;
+	for(i = 0; i < active_elements.length; i++) {
+		let j;
+		let sum = 0;
+		for(j = i + 1; j < active_elements.length; j++) {
+			sum += element_drivers[active_elements[j]].ele.offsetHeight;
+		}
+		element_drivers[active_elements[i]].moved_height = sum;
+	}
+}
+
 function main_loop() {
 	let counter = video_player.firstElementChild.firstElementChild.currentTime;
 	let i;
@@ -110,32 +117,37 @@ function main_loop() {
 		if(element_drivers[i].active(counter) && !element_drivers[i].shown) {
 			addElement(element_drivers[i].ele);
 			element_drivers[i].shown = true;
-			if(bar_down && element_drivers[i].ele.tagName !== "DIV") { 
-				element_drivers[i].ele.style.bottom="1%";
+			centerElementHorizontally(element_drivers[i].ele, video_player);
+			
+			if(active_elements.length > 0) {
+				let j;
+				for(j = 0; j < active_elements.length; j++) {
+					element_drivers[active_elements[j]].moved_height += element_drivers[i].ele.offsetHeight;
+				}
 			}
-			else if(!bar_down && element_drivers[i].ele.tagName !== "DIV") {
-				element_drivers[i].ele.style.bottom = time_bar.offsetHeight + 10 + "px";
-			} else if(bar_down && element_drivers[i].ele.tagName === "DIV") {
-				let c = element_drivers[i].ele.firstElementChild;
-				if(c && c.hasAttribute("movewithbar")) element_drivers[i].ele.style.bottom = "0%";
-			} else if(!bar_down && element_drivers[i].ele.tagName === "DIV") {
-				let c = element_drivers[i].ele.firstElementChild;
-				if(c && c.hasAttribute("movewithbar")) element_drivers[i].ele.style.bottom = time_bar.offsetHeight + 10 + "px";
+			active_elements.push(i);
+			
+			if(bar_down) { 
+				element_drivers[i].ele.style.bottom=(0.01 * video_player.offsetHeight) + "px";
+			} else {
+				element_drivers[i].ele.style.bottom = time_bar.offsetHeight + (0.01 * video_player.offsetHeight) + "px";
 			}
 		} else if(!element_drivers[i].active(counter) && element_drivers[i].shown) {
 			element_drivers[i].shown = false;
 			element_drivers[i].ele.remove();
+			element_drivers[i].ele.style.bottom= (0.01 * video_player.offsetHeight) + "px";
+			
+			if(active_elements.length > 0 && active_elements.includes(i)) {
+				element_drivers[i].moved_height = 0;
+				active_elements.splice(active_elements.indexOf(i), 1);
+				fix_active_elements();
+			}
 		} else if(element_drivers[i].active(counter) && element_drivers[i].shown) {
-			if(bar_down && element_drivers[i].ele.tagName !== "DIV") 
-				element_drivers[i].ele.style.bottom="1%";
-			else if(!bar_down && element_drivers[i].ele.tagName !== "DIV") {
-				element_drivers[i].ele.style.bottom = time_bar.offsetHeight + 10 + "px";
-			} else if(bar_down && element_drivers[i].ele.tagName === "DIV") {
-				let c = element_drivers[i].ele.firstElementChild;
-				if(c && c.hasAttribute("movewithbar")) element_drivers[i].ele.style.bottom = "0%";
-			} else if(!bar_down && element_drivers[i].ele.tagName === "DIV") {
-				let c = element_drivers[i].ele.firstElementChild;
-				if(c && c.hasAttribute("movewithbar")) element_drivers[i].ele.style.bottom = time_bar.offsetHeight + 10 + "px";
+			centerElementHorizontally(element_drivers[i].ele, video_player);
+			if(bar_down) {
+				element_drivers[i].ele.style.bottom= (0.01 * video_player.offsetHeight) + element_drivers[i].moved_height + "px";
+			} else {
+				element_drivers[i].ele.style.bottom = time_bar.offsetHeight + (0.01 * video_player.offsetHeight) + element_drivers[i].moved_height + "px";
 			}
 		}
 	}
@@ -148,9 +160,28 @@ function main_loop_mobile() {
 		if(element_drivers[i].active(counter) && !element_drivers[i].shown) {
 			addElement(element_drivers[i].ele);
 			element_drivers[i].shown = true;
+			centerElementHorizontally(element_drivers[i].ele, video_player);
+			
+			if(active_elements.length > 0) {
+				let j;
+				for(j = 0; j < active_elements.length; j++) {
+					element_drivers[active_elements[j]].moved_height += element_drivers[i].ele.offsetHeight;
+				}
+			}
+			active_elements.push(i);
+			element_drivers[i].ele.style.bottom= (0.01 * video_player.offsetHeight) + "px";
 		} else if(!element_drivers[i].active(counter) && element_drivers[i].shown) {
 			element_drivers[i].shown = false;
 			element_drivers[i].ele.remove();
+			
+			if(active_elements.length > 0 && active_elements.includes(i)) {
+				element_drivers[i].moved_height = 0;
+				active_elements.splice(active_elements.indexOf(i), 1);
+				fix_active_elements();
+			}
+		} else if(element_drivers[i].active(counter) && element_drivers[i].shown) {
+			centerElementHorizontally(element_drivers[i].ele, video_player);
+			element_drivers[i].ele.style.bottom= (0.01 * video_player.offsetHeight) + element_drivers[i].moved_height + "px";
 		}
 	}
 }
@@ -214,3 +245,5 @@ if(!already_changed) {
 	
 	checkVersion();
 }
+
+document.addEventListener("fullscreenchange", function() { fix_active_elements(); });

@@ -12,7 +12,6 @@ function getSubList(tabId, current_id) {
 		}
 		sub_list_checked = true;
 		if(sub_list.includes(current_id)) chrome.pageAction.setIcon({tabId: tabId, path: 'icons/foundStuff.png'});
-		chrome.runtime.sendMessage({com: "justChecked"});
 	}
 	xml.addEventListener('load', reqListener);
 	xml.open('GET', "https://api.github.com/repos/MistralMireille/mistralmireille.github.io/contents/links"); 

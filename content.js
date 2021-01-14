@@ -176,7 +176,7 @@ function main_loop_mobile() {
 		} else if(!element_drivers[i].active(counter) && element_drivers[i].shown) {
 			element_drivers[i].shown = false;
 			element_drivers[i].ele.remove();
-			centerElementHorizontally(element_drivers[i].ele, video_player);
+			element_drivers[i].ele.style.bottom= "-1000px";
 			
 			if(active_elements.length > 0 && active_elements.includes(i)) {
 				element_drivers[i].moved_height = 0;

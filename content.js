@@ -69,7 +69,7 @@ function populate_drivers(file_as_string) {
 			ele.style.bottom = "1%";
 			ele.style.color="white";
 			ele.style.backgroundColor="rgba(0,0,0,0.5)";
-			ele.style.fontSize="2.5em"; // was 60px
+			ele.style.fontSize=(0.04 * video_player.offsetHeight) + "px"; // was 60px
 			ele.style.maxWidth="95%";
 			ele.style.whiteSpace="pre-wrap";
 			ele.style.textAlign="center";
@@ -115,6 +115,7 @@ function main_loop() {
 	let i;
 	for(i = 0; i < element_drivers.length; i++) {
 		if(element_drivers[i].active(counter) && !element_drivers[i].shown) {
+			element_drivers[i].ele.style.fontSize = (0.04 * video_player.offsetHeight) + "px";
 			addElement(element_drivers[i].ele);
 			element_drivers[i].shown = true;
 			centerElementHorizontally(element_drivers[i].ele, video_player);
@@ -144,6 +145,7 @@ function main_loop() {
 			}
 		} else if(element_drivers[i].active(counter) && element_drivers[i].shown) {
 			centerElementHorizontally(element_drivers[i].ele, video_player);
+			element_drivers[i].ele.style.fontSize = (0.04 * video_player.offsetHeight) + "px";
 			if(bar_down) {
 				element_drivers[i].ele.style.bottom= (0.01 * video_player.offsetHeight) + element_drivers[i].moved_height + "px";
 			} else {
@@ -158,6 +160,7 @@ function main_loop_mobile() {
 	let i;
 	for(i = 0; i < element_drivers.length; i++) {
 		if(element_drivers[i].active(counter) && !element_drivers[i].shown) {
+			element_drivers[i].ele.style.fontSize = (0.04 * video_player.offsetHeight) + "px";
 			addElement(element_drivers[i].ele);
 			element_drivers[i].shown = true;
 			centerElementHorizontally(element_drivers[i].ele, video_player);
@@ -173,6 +176,7 @@ function main_loop_mobile() {
 		} else if(!element_drivers[i].active(counter) && element_drivers[i].shown) {
 			element_drivers[i].shown = false;
 			element_drivers[i].ele.remove();
+			centerElementHorizontally(element_drivers[i].ele, video_player);
 			
 			if(active_elements.length > 0 && active_elements.includes(i)) {
 				element_drivers[i].moved_height = 0;
@@ -181,6 +185,7 @@ function main_loop_mobile() {
 			}
 		} else if(element_drivers[i].active(counter) && element_drivers[i].shown) {
 			centerElementHorizontally(element_drivers[i].ele, video_player);
+			element_drivers[i].ele.style.fontSize = (0.04 * video_player.offsetHeight) + "px";
 			element_drivers[i].ele.style.bottom= (0.01 * video_player.offsetHeight) + element_drivers[i].moved_height + "px";
 		}
 	}

@@ -160,7 +160,7 @@ function main_loop() {
 		} else if(element_drivers[i].active(counter) && element_drivers[i].shown) {
 			centerElementHorizontally(element_drivers[i].ele, video_player);
 			element_drivers[i].ele.style.fontSize = (0.04 * video_player.offsetHeight) + "px";
-			if(element_drivers[i].ele.style.webkitTextStrokeWidth !== "") element_drivers[i].ele.style.webkitTextStrokeWidth=(0.01 * video_player.offsetHeight) + "px";
+			if(CSS.supports("-moz-user-select", "text")) element_drivers[i].ele.style.webkitTextStrokeWidth=(0.01 * video_player.offsetHeight) + "px";
 			if(bar_down) {
 				element_drivers[i].ele.style.bottom= (0.01 * video_player.offsetHeight) + element_drivers[i].moved_height + "px";
 			} else {

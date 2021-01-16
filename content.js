@@ -127,7 +127,6 @@ function main_loop() {
 				}
 			}
 			active_elements.push(i);
-			
 			if(bar_down) { 
 				element_drivers[i].ele.style.bottom=(0.01 * video_player.offsetHeight) + "px";
 			} else {
@@ -196,17 +195,17 @@ function main_loop_mobile() {
 
 function addSubs_fromText() {
 	video_player = document.querySelector("div#player > div#player-container-outer > div#player-container-inner > div#player-container > ytd-player#ytd-player > div#container > div[class*='html5-video-player'][id='movie_player'] ");
- if(video_player) fade = video_player.querySelector(".ytp-gradient-bottom");
+	if(video_player) fade = video_player.querySelector(".ytp-gradient-bottom");
 	if(video_player) time_bar = video_player.querySelector(".ytp-chrome-bottom");
 	
 	if(video_player && fade && time_bar) {
 		video_player.parentElement.addEventListener('mousemove', function() {
 			if(bar_down) bar_down = false;
-  }, false);
+		}, false);
   
 		fade.addEventListener('transitionend', function() {
-    bar_down = true;
-  }, false);
+			bar_down = true;
+		}, false);
 		
 		populate_drivers(textContent);
 		let main_loop_interval = setInterval(main_loop, 100);

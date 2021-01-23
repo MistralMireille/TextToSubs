@@ -58,7 +58,6 @@ function populate_drivers(file_as_string) {
 			let part_one = s.split("\n")[1].replace(/,/g, ".");
 			part_one = part_one.replace(" --> ", " ");
 			s = part_one + "\n" + s.split("\n")[2];
-			alert(s);
 		}
 		let verified = verify_file(s);
 		if(verified) {

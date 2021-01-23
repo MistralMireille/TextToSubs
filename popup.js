@@ -6,7 +6,7 @@ function insertScript() {
 	document.getElementById('add-button').removeEventListener('click', insertScript);
 	document.getElementById('add-button').addEventListener('click', errorText, false);
 	chrome.tabs.executeScript({
-		code: 'let textContent = ' + JSON.stringify(document.getElementById('text-area').value)
+		code: 'let textContent = ' + JSON.stringify(document.getElementById('text-area').value) + ';'
 	}, function() {
 		chrome.tabs.executeScript({file: 'content.js'});
 	});

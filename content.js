@@ -55,7 +55,10 @@ function populate_drivers(file_as_string) {
 	for(i = 0; i < string_array.length; i++) {
 		let s = string_array[i];
 		if(s.split("\n").length === 3 && s.split("\n")[0].match(/^[1-9][0-9]*$/)) { // could be srt file
-			s = s.split("\n")[1] + "\n" + s.split("\n")[2];
+			let part_one = s.split("\n")[1].replace(/,/g, ".");
+			part_one = part_one.replace(" --> ", " ");
+			s = part_one + "\n" + s.split("\n")[2];
+			alert(s);
 		}
 		let verified = verify_file(s);
 		if(verified) {
@@ -224,6 +227,16 @@ function addSubs_fromText() {
 		fade.addEventListener('transitionend', function() {
 			bar_down = true;
 		}, false);
+		
+		let video_element = video_player.firstElementChild.firstElementChild;
+		if(video_element && video_element.tagName === "VIDEO") {
+			video_element.addEventListener("seeking", function() {
+				bar_down = false;
+			}, false);
+			video_element.addEventListener("pause", function() {
+				bar_down = false;
+			}, false);
+		}
 		
 		populate_drivers(textContent);
 		let main_loop_interval = setInterval(main_loop, 100);

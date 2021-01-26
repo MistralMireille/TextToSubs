@@ -36,7 +36,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 });
 
 chrome.webNavigation.onCommitted.addListener(function(details) {
-	if(details.transitionType.toString() === "reload") {
+	if(details.transitionType.toString() === "reload" || (details.transitionType.toString() === "link" && details.transitionQualifiers[0] === "client_redirect")) {
 		if(details.url.match(/\.*youtube.com\/watch/)) {
 			chrome.pageAction.show(details.tabId);
 			if(!sub_list_checked) {

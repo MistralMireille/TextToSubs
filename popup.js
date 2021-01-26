@@ -68,6 +68,11 @@ function decompressText() {
 	}
 }
 
+function reloadPageAtTime() {
+	chrome.tabs.executeScript({file: 'refresh_at_time.js'});
+	window.close();
+}
+
 function checkGitFile() {
 	if(!results_open) {
 		results_open = true;
@@ -134,5 +139,6 @@ chrome.runtime.onMessage.addListener(function(request) {
 
 document.getElementById('decompress-text').addEventListener('click', decompressText, false);
 document.getElementById('compress-text').addEventListener('click', compressText, false);
+document.getElementById('refresh-button').addEventListener('click', reloadPageAtTime, false);
 window.addEventListener('load', checkPrevious, false);
 window.addEventListener('unload', perserveText, false);

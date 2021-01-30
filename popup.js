@@ -140,5 +140,17 @@ chrome.runtime.onMessage.addListener(function(request) {
 document.getElementById('decompress-text').addEventListener('click', decompressText, false);
 document.getElementById('compress-text').addEventListener('click', compressText, false);
 document.getElementById('refresh-button').addEventListener('click', reloadPageAtTime, false);
+
+document.getElementById('string-builder-button').addEventListener('click', function() {
+	document.getElementById('main-frame').style.display = "none";
+	document.getElementById('subtitle-builder-frame').style.display = "block";
+}, false);
+
+document.getElementById('return-to-main').addEventListener('click', function() {
+	document.getElementById('main-frame').style.display = "block";
+	document.getElementById('text-area').style.width = "500px";
+	document.getElementById('subtitle-builder-frame').style.display = "none";
+}, false);
+
 window.addEventListener('load', checkPrevious, false);
 window.addEventListener('unload', perserveText, false);

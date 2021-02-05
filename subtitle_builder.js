@@ -298,7 +298,7 @@ function storeSubtitleBox() {
 		content.push(sub.children[8].value);
 		full_content.push(content);
 	}
-	bg.subtitle_box_content = full_content;
+	bg.setSubtitleBoxContent(JSON.stringify(full_content));
 	bg.subtitle_box_count = container.childElementCount;
 }
 
@@ -310,7 +310,7 @@ function storeAddedColors() {
 	for(i = 2; i < list.childElementCount; i++) {
 		color_array.push(list.children[i].children[0].firstElementChild.value + " " + list.children[i].children[2].firstElementChild.value);
 	}
-	bg.color_array = color_array;
+	bg.setColorArray(JSON.stringify(color_array));
 }
 
 function shipSubtitleBox() {

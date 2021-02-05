@@ -1,4 +1,5 @@
 var text_content = "";
+var subtitle_box_content = [];
 var subtitle_box_count = 0;
 var current_window = 0;
 var default_text_color = "#ffffff";
@@ -6,6 +7,14 @@ var default_background_color = "#000000";
 var color_array = [];
 var sub_list = [];
 var sub_list_checked = false;
+
+function setSubtitleBoxContent(x) {
+	subtitle_box_content = JSON.parse(x);
+}
+
+function setColorArray(x) {
+	color_array = JSON.parse(x);
+}
 
 function getSubList(tabId, current_id) {
 	let xml = new XMLHttpRequest();

@@ -1,4 +1,9 @@
 var text_content = "";
+var subtitle_box_count = 0;
+var current_window = 0;
+var default_text_color = "#ffffff";
+var default_background_color = "#000000";
+var color_array = [];
 var sub_list = [];
 var sub_list_checked = false;
 

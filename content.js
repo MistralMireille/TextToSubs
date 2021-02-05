@@ -43,10 +43,19 @@ function verify_file(s) {
 	let content = test_array[1];
 	if(isNaN(parseInt(time_to_int(time1)))) return false;
 	if(isNaN(parseInt(time_to_int(time2)))) return false;
+	if(content.length === 0) return false;
 	return true;
 }
 
 function populate_drivers(file_as_string) {
+	if(element_drivers.length > 0) {
+		let i;
+		for(i = 0; i < element_drivers.length; i++) {
+			element_drivers[i].ele.remove();
+		}
+		active_elements = [];
+		element_drivers = [];
+	}
 	let string_array;
 	file_as_string = file_as_string.replace(/\r/gm, "");
 	string_array = file_as_string.split(/\n\n/);
@@ -282,5 +291,11 @@ if(!already_changed) {
 	
 	checkVersion();
 }
+
+chrome.runtime.onMessage.addListener(function(request) {
+	if(request.com === "updateSubtitleTesters") {
+		populate_drivers(request.update);
+	}
+});
 
 document.addEventListener("fullscreenchange", function() { fix_active_elements(); });

@@ -19,7 +19,8 @@
 	"permissions": [
 		"activeTab",
 		"tabs",
-		"webNavigation"
+		"webNavigation",
+		"storage"
 	],
 	"icons": {
 		"16": "icons/icon16.png",

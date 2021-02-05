@@ -40,13 +40,14 @@
 				
 			</div>
 			<p id="error-text" style="color: red; display: none;">X  The content script is already loaded into the page.<br>Reload the page if you need to load different subs.<br>Reloading will also clear the subs that are already there.</p>
+			<p id="SB-error-text" style="color: red; display: none;">X	String Builder mode only works when no subtitles are currently added to the video. Refresh the page to remove the subs from the video.</p>
 		</div>
 		
 		<div id="subtitle-builder-frame" style="display: none; width: 500px">
 			<div style="display: flex; flex-direction: row">
 				<p style="width: 60%; margin: 0; font-size: 20px">TextToSubs</p>
 				<div style="width: 10%; text-align: right; min-width: 35px">
-					<img id="add-subtitle" src="icons/plus.png">
+					<img id="add-subtitle-button" src="icons/plus.png">
 				</div>
 				<div style="width: 10%; text-align: right; min-width: 35px">
 					<img id="return-to-main" src="icons/letter_x.png">
@@ -55,9 +56,53 @@
 					<button id="help-button" style="width: 100%; height: 100%; border: 1px solid black">Help</button>
 				</a>
 			</div>
-			<p>We did it.</p>
+			<div id="subtitle-builder-container">
+				
+			</div>
+			<hr>
+			<div class="flex-container">
+				<button id="add-test-subs-button">Add Test Subs</button>
+				<button id="add-textbox">Add All to TextBox</button>
+				<button id="remove-list">Remove All from List</button>
+				<button id="color-frame-button">Colors</button>
+			</div>
+			<hr>
+			<div id="color-frame" class="flex-container flex-container-vertical" style="display: none; border: 2px solid black">
+				<div style="background-color: black; color: white; border-left: 5px solid black; border-right: 5px solid black">
+					<div style="display: flex; flex-wrap: wrap">
+						<label for="saved-colors" style="align-self: center; white-space: pre">Saved Colors: </label>
+						<select name="saved-colors" id="saved-colors" style="align-self: center; flex-grow: 1">
+							<option></option>
+						</select>					
+					</div>
+					<div style="display: flex; justify-content: center">
+						<button id="add-color-button">Add Color</button>
+						<button id="save-colors-button">Save Colors to Storage</button>
+						<button id="delete-colors-button">Delete Current Colors from Storage</button>
+					</div>
+				</div>
+				<div id="color-list" style="border-top: 5px solid black; border-left: 5px solid black; border-right: 5px solid black">
+					<div style="display: flex">
+						<span style="white-space: pre; align-self: center"> Text Color: </span>
+						<input id="text-color-reference" type="color" value="#ffffff" disabled></input>
+						<span style="white-space: pre; align-self: center"> | </span>
+						<span style="white-space: pre; align-self: center">Background Color: </span>
+						<input id="background-color-reference" type="color" disabled></span>
+					</div>
+					<div style="display: flex; flex-wrap: wrap; justify-content: center; border-top: 1px solid black">
+						<span style="white-space: pre">Default: </span>
+						<div style="height: 0; flex-basis: 100%"></div>
+						<span style="white-space: pre">Text Color: <input type="color" value="#ffffff" disabled></span>
+						<span style="white-space: pre">   </span>
+						<span style="white-space: pre">Background Color: <input type="color" disabled></span>
+						<span style="white-space: pre">   </span>
+						<button id="default-set-button">Set</button>
+					</div>
+				</div>
+			</div>
 		</div>
 	</body>
 	<script src="lz_string.js"></script>
 	<script src="popup.js"></script>
+	<script src="subtitle_builder.js"></script>
 </html>

@@ -26,16 +26,35 @@ function checkMatch() {
 }
 
 function checkForText() {
-	if(document.getElementById('text-area').value.length > 0) 
+	if(document.getElementById('text-area').value.length > 0) {
 		insertScript();
-	else
+	}	else {
 		alert("No text in the text box.");
+	}
+}
+
+function showSB() {
+	bg.current_window = 1;
+	// document.getElementById('add-button').removeEventListener('click', insertScript);
+	// document.getElementById('add-button').addEventListener('click', errorText, false);
+	document.getElementById('main-frame').style.display = "none";
+	document.getElementById('subtitle-builder-frame').style.display = "block";
 }
 
 function checkPrevious() {
 	chrome.tabs.executeScript({file: 'find_and_report.js'});
 	if(bg.text_content && bg.text_content.length > 0) document.getElementById('text-area').value = bg.text_content;
 	if(bg.sub_list_checked && bg.sub_list.length > 0) checkMatch();
+	
+	let mf = document.getElementById('main-frame');
+	let sbf = document.getElementById('subtitle-builder-frame');
+	if(bg.current_window === 0) {
+		mf.style.display="block";
+		sbf.style.display="none";
+	} else {
+	  sbf.style.display="block";
+		mf.style.display="none";
+	}
 }
 
 function errorText() {
@@ -131,8 +150,13 @@ chrome.runtime.onMessage.addListener(function(request) {
 	if(request.com === "getElement") {
 		if(request.source === "true") {
 			document.getElementById('add-button').addEventListener('click', errorText, false);
+			/*document.getElementById('string-builder-button').addEventListener('click', function() {
+				document.getElementById('SB-error-text').style.display="block";
+			}, false);
+			*/
 		} else if(request.source === "false") {
 			document.getElementById('add-button').addEventListener('click', checkForText, false);
+			//document.getElementById('string-builder-button').addEventListener('click', showSB, false);
 		}	
 	}
 });
@@ -140,13 +164,13 @@ chrome.runtime.onMessage.addListener(function(request) {
 document.getElementById('decompress-text').addEventListener('click', decompressText, false);
 document.getElementById('compress-text').addEventListener('click', compressText, false);
 document.getElementById('refresh-button').addEventListener('click', reloadPageAtTime, false);
-
-document.getElementById('string-builder-button').addEventListener('click', function() {
-	document.getElementById('main-frame').style.display = "none";
-	document.getElementById('subtitle-builder-frame').style.display = "block";
-}, false);
+document.getElementById('string-builder-button').addEventListener('click', showSB, false);
 
 document.getElementById('return-to-main').addEventListener('click', function() {
+	bg.current_window = 0;
+	document.getElementById('add-button').removeEventListener('click', insertScript);
+	document.getElementById('add-button').removeEventListener('click', errorText);
+	chrome.tabs.executeScript({ file: 'find_and_report.js' });
 	document.getElementById('main-frame').style.display = "block";
 	document.getElementById('text-area').style.width = "500px";
 	document.getElementById('subtitle-builder-frame').style.display = "none";

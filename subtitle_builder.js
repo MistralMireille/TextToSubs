@@ -21,8 +21,8 @@ function addSubtitleBox() {
 	let container = document.getElementById('subtitle-builder-container');
 	if(container.childElementCount < 10) {
 		let test = document.createElement("DIV");
-		let color1 = document.createElement("INPUT");
-		let color2 = document.createElement("INPUT");
+		let color1 = document.createElement("DIV");
+		let color2 = document.createElement("DIV");
 		let time1 = document.createElement("INPUT");
 		let time2 = document.createElement("INPUT");
 		let time_controls = document.createElement("BUTTON");
@@ -30,24 +30,64 @@ function addSubtitleBox() {
 		let remove_sub = document.createElement("BUTTON");
 		let breaking_div = document.createElement("DIV");
 		let content = document.createElement("INPUT");
-		color1.type="color";
-		color2.type="color";
+		color1.style.border="1px solid black";
 		color1.style.width="2em";
 		color1.value=bg.default_text_color;
+		color1.style.backgroundColor=bg.default_text_color;
+		let popupCustom = new Picker({
+			parent: color1,
+			popup: 'bottom',
+			color: color1.value,
+			alpha: false,
+			editorFormat: 'hex',
+			onDone: function(color) {
+				color1.style.backgroundColor = color.hex;
+				color1.value = color.hex.substring(0, color.hex.length - 2);
+			},
+			onOpen: function(color) {
+				document.body.style.height = document.body.offsetHeight + color1.firstElementChild.offsetHeight + "px";
+				popupCustom.setColor(color1.value, true);
+			},
+			onClose: function() {
+				document.body.style.height = "";
+			}
+		});
 		color1.addEventListener('mousedown', function(event) {
 			if(event.button === 1 && event.shiftKey) {
 				copied_color = this.value;
 			} else if(event.button === 1) {
 				this.value = copied_color;
+				this.style.backgroundColor = copied_color;
 			}
 		});
+		color2.style.border="1px solid black";
 		color2.style.width="2em";
 		color2.value=bg.default_background_color;
+		color2.style.backgroundColor=bg.default_background_color;
+		let popupCustom2 = new Picker({
+			parent: color2,
+			popup: 'bottom',
+			color: color2.value,
+			alpha: false,
+			editorFormat: 'hex',
+			onDone: function(color) {
+				color2.style.backgroundColor = color.hex;
+				color2.value = color.hex.substring(0, color.hex.length - 2);
+			},
+			onOpen: function(color) {
+				document.body.style.height = document.body.offsetHeight + color2.firstElementChild.offsetHeight + "px";
+				popupCustom2.setColor(color2.value, true);
+			},
+			onClose: function() {
+				document.body.style.height = "";
+			}
+		});
 		color2.addEventListener('mousedown', function(event) {
 			if(event.button === 1 && event.shiftKey) {
 				copied_color = this.value;
 			} else if(event.button === 1) {
 				this.value = copied_color;
+				this.style.backgroundColor = copied_color;
 			}
 		});
 		time1.type="text";
@@ -102,6 +142,12 @@ function restoreSBData() {
 	restoreSubtitleBox();
 	restoreAddedColors();
 	setStorageColors();
+	setColorFill();
+}
+
+function setColorFill() {
+	document.getElementById('text-color-reference').value = bg.default_text_color;
+	document.getElementById('background-color-reference').value = bg.default_background_color;
 }
 
 function restoreSubtitleBox() {
@@ -113,8 +159,8 @@ function restoreSubtitleBox() {
 			let content_array = bg.subtitle_box_content[i];
 			
 			let test = document.createElement("DIV");
-			let color1 = document.createElement("INPUT");
-			let color2 = document.createElement("INPUT");
+			let color1 = document.createElement("DIV");
+			let color2 = document.createElement("DIV");
 			let time1 = document.createElement("INPUT");
 			let time2 = document.createElement("INPUT");
 			let time_controls = document.createElement("BUTTON");
@@ -122,26 +168,68 @@ function restoreSubtitleBox() {
 			let remove_sub = document.createElement("BUTTON");
 			let breaking_div = document.createElement("DIV");
 			let content = document.createElement("INPUT");
-			color1.type="color";
-			color2.type="color";
+			
+			color1.style.border="1px solid black";
 			color1.style.width="2em";
-			color1.value= content_array[0];
+			color1.value=content_array[0];
+			color1.style.backgroundColor=content_array[0];
+			let popupCustom = new Picker({
+				parent: color1,
+				popup: 'bottom',
+				color: color1.value,
+				alpha: false,
+				editorFormat: 'hex',
+				onDone: function(color) {
+					color1.style.backgroundColor = color.hex;
+					color1.value = color.hex.substring(0, color.hex.length - 2);
+				},
+				onOpen: function(color) {
+					document.body.style.height = document.body.offsetHeight + color1.firstElementChild.offsetHeight + "px";
+					popupCustom.setColor(color1.value, true);
+				},
+				onClose: function() {
+					document.body.style.height = "";
+				}
+			});
 			color1.addEventListener('mousedown', function(event) {
 				if(event.button === 1 && event.shiftKey) {
 					copied_color = this.value;
 				} else if(event.button === 1) {
 					this.value = copied_color;
+					this.style.backgroundColor = copied_color;
 				}
 			});
+			color2.style.border="1px solid black";
 			color2.style.width="2em";
-			color2.value = content_array[1];
+			color2.value=content_array[1];
+			color2.style.backgroundColor=content_array[1];
+			let popupCustom2 = new Picker({
+				parent: color2,
+				popup: 'bottom',
+				color: color2.value,
+				alpha: false,
+				editorFormat: 'hex',
+				onDone: function(color) {
+					color2.style.backgroundColor = color.hex;
+					color2.value = color.hex.substring(0, color.hex.length - 2);
+				},
+				onOpen: function(color) {
+					document.body.style.height = document.body.offsetHeight + color2.firstElementChild.offsetHeight + "px";
+					popupCustom2.setColor(color2.value, true);
+				},
+				onClose: function() {
+					document.body.style.height = "";
+				}
+			});
 			color2.addEventListener('mousedown', function(event) {
 				if(event.button === 1 && event.shiftKey) {
 					copied_color = this.value;
 				} else if(event.button === 1) {
 					this.value = copied_color;
+					this.style.backgroundColor = copied_color;
 				}
 			});
+			
 			time1.type="text";
 			time2.type="text";
 			time1.size="6";
@@ -242,14 +330,62 @@ function addColor(c1, c2) {
 	box.style.justifyContent="center";
 	box.style.borderTop="1px solid black";
 	
-	color1.style.whiteSpace="pre";
-	color1.innerHTML = "Text Color: <input type='color' value='" + c1 + "'>";
+	color1.innerHTML = "Text Color: <div></div>";
+	color1.firstElementChild.style.width="2em";
+	color1.firstElementChild.style.height="1.58em";
+	color1.firstElementChild.style.marginLeft="auto";
+	color1.firstElementChild.style.marginRight="auto";
+	color1.firstElementChild.style.border="1px solid black";
+	color1.firstElementChild.value=c1;
+	color1.firstElementChild.style.backgroundColor=c1;
+	let popupCustom = new Picker({
+		parent: color1.firstElementChild,
+		popup: 'bottom',
+		color: color1.firstElementChild.value,
+		alpha: false,
+		editorFormat: 'hex',
+		onDone: function(color) {
+			color1.firstElementChild.style.backgroundColor = color.hex;
+			color1.firstElementChild.value = color.hex.substring(0, color.hex.length - 2);
+		},
+		onOpen: function(color) {
+			document.body.style.height = document.body.offsetHeight + color1.firstElementChild.firstElementChild.offsetHeight + "px";
+			popupCustom.setColor(color1.firstElementChild.value, true);
+		},
+		onClose: function() {
+			document.body.style.height = "";
+		}
+	});	
 	
 	space_span.style.whiteSpace="pre";
 	space_span.innerText="   ";
 	
-	color2.style.whiteSpace="pre";
-	color2.innerHTML="Background Color: <input type='color' value='" + c2 + "'>";
+	color2.innerHTML = "Text Color: <div></div>";
+	color2.firstElementChild.style.width="2em";
+	color2.firstElementChild.style.height="1.58em";
+	color2.firstElementChild.style.marginLeft="auto";
+	color2.firstElementChild.style.marginRight="auto";
+	color2.firstElementChild.style.border="1px solid black";
+	color2.firstElementChild.value=c2;
+	color2.firstElementChild.style.backgroundColor=c2;
+	let popupCustom2 = new Picker({
+		parent: color2.firstElementChild,
+		popup: 'bottom',
+		color: color2.firstElementChild.value,
+		alpha: false,
+		editorFormat: 'hex',
+		onDone: function(color) {
+			color2.firstElementChild.style.backgroundColor = color.hex;
+			color2.firstElementChild.value = color.hex.substring(0, color.hex.length - 2);
+		},
+		onOpen: function(color) {
+			document.body.style.height = document.body.offsetHeight + color2.firstElementChild.firstElementChild.offsetHeight + "px";
+			popupCustom2.setColor(color2.firstElementChild.value, true);
+		},
+		onClose: function() {
+			document.body.style.height = "";
+		}
+	});	
 	
 	space_span2.style.whiteSpace="pre";
 	space_span2.innerText="   ";

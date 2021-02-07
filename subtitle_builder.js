@@ -98,8 +98,8 @@ function addSubtitleBox() {
 		time2.type="text";
 		time1.size="6";
 		time2.size="6";
-		time1.addEventListener('click', function(event) {
-			if(event.shiftKey) {
+		time1.addEventListener('mousedown', function(event) {
+			if(event.button === 1) {
 				event.preventDefault();
 				let time_element = this;
 				chrome.tabs.executeScript({ code: 
@@ -116,8 +116,8 @@ function addSubtitleBox() {
 				});
 			}
 		}, false);
-		time2.addEventListener('click', function(event) {
-			if(event.shiftKey) {
+		time2.addEventListener('mousedown', function(event) {
+			if(event.button === 1) {
 				event.preventDefault();
 				let time_element = this;
 				chrome.tabs.executeScript({ code: 
@@ -280,8 +280,8 @@ function restoreSubtitleBox() {
 			time2.size="6";
 			time1.value = content_array[2];
 			time2.value = content_array[3];
-			time1.addEventListener('click', function(event) {
-				if(event.shiftKey) {
+			time1.addEventListener('mousedown', function(event) {
+				if(event.button === 1) {
 					event.preventDefault();
 					let time_element = this;
 					chrome.tabs.executeScript({ code: 
@@ -298,8 +298,8 @@ function restoreSubtitleBox() {
 					});
 				}
 			}, false);
-			time2.addEventListener('click', function(event) {
-				if(event.shiftKey) {
+			time2.addEventListener('mousedown', function(event) {
+				if(event.button === 1) {
 					event.preventDefault();
 					let time_element = this;
 					chrome.tabs.executeScript({ code: 

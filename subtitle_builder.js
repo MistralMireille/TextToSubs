@@ -54,8 +54,10 @@ function addSubtitleBox() {
 		});
 		color1.addEventListener('mousedown', function(event) {
 			if(event.button === 1 && event.shiftKey) {
+				event.preventDefault();
 				copied_color = this.value;
 			} else if(event.button === 1) {
+				event.preventDefault();
 				this.value = copied_color;
 				this.style.backgroundColor = copied_color;
 			}
@@ -84,8 +86,10 @@ function addSubtitleBox() {
 		});
 		color2.addEventListener('mousedown', function(event) {
 			if(event.button === 1 && event.shiftKey) {
+				event.preventDefault();
 				copied_color = this.value;
 			} else if(event.button === 1) {
+				event.preventDefault();
 				this.value = copied_color;
 				this.style.backgroundColor = copied_color;
 			}
@@ -94,6 +98,42 @@ function addSubtitleBox() {
 		time2.type="text";
 		time1.size="6";
 		time2.size="6";
+		time1.addEventListener('click', function(event) {
+			if(event.shiftKey) {
+				event.preventDefault();
+				let time_element = this;
+				chrome.tabs.executeScript({ code: 
+				'document.querySelector("video").currentTime.toString();'
+				}, function(result) {
+					let t1 = Math.floor(result[0] / 3600);
+					t1 < 10 ? t1 = "0" + t1 : t1 = "" + t1;
+					let t2 = Math.floor(result[0] / 60);
+					t2 < 10 ? t2 = "0" + t2 : t2 = "" + t2;
+					let t3 = Math.floor(result[0] % 60 * 10) / 10;
+					t3 < 10 ? t3 = "0" + t3 : t3 = "" + t3;
+					let t = t1 + ':' + t2 + ':' + t3
+					time_element.value = t;
+				});
+			}
+		}, false);
+		time2.addEventListener('click', function(event) {
+			if(event.shiftKey) {
+				event.preventDefault();
+				let time_element = this;
+				chrome.tabs.executeScript({ code: 
+				'document.querySelector("video").currentTime.toString();'
+				}, function(result) {
+					let t1 = Math.floor(result[0] / 3600);
+					t1 < 10 ? t1 = "0" + t1 : t1 = "" + t1;
+					let t2 = Math.floor(result[0] / 60);
+					t2 < 10 ? t2 = "0" + t2 : t2 = "" + t2;
+					let t3 = Math.floor(result[0] % 60 * 10) / 10;
+					t3 < 10 ? t3 = "0" + t3 : t3 = "" + t3;
+					let t = t1 + ':' + t2 + ':' + t3
+					time_element.value = t;
+				});
+			}
+		}, false);
 		time_controls.innerText="Jump 2s Before";
 		time_controls.addEventListener('click', function() {
 			if(!isNaN(time_to_int(time1.value))) {
@@ -193,8 +233,10 @@ function restoreSubtitleBox() {
 			});
 			color1.addEventListener('mousedown', function(event) {
 				if(event.button === 1 && event.shiftKey) {
+					event.preventDefault();
 					copied_color = this.value;
 				} else if(event.button === 1) {
+					event.preventDefault();
 					this.value = copied_color;
 					this.style.backgroundColor = copied_color;
 				}
@@ -223,8 +265,10 @@ function restoreSubtitleBox() {
 			});
 			color2.addEventListener('mousedown', function(event) {
 				if(event.button === 1 && event.shiftKey) {
+					event.preventDefault();
 					copied_color = this.value;
 				} else if(event.button === 1) {
+					event.preventDefault();
 					this.value = copied_color;
 					this.style.backgroundColor = copied_color;
 				}
@@ -236,6 +280,42 @@ function restoreSubtitleBox() {
 			time2.size="6";
 			time1.value = content_array[2];
 			time2.value = content_array[3];
+			time1.addEventListener('click', function(event) {
+				if(event.shiftKey) {
+					event.preventDefault();
+					let time_element = this;
+					chrome.tabs.executeScript({ code: 
+					'document.querySelector("video").currentTime.toString();'
+					}, function(result) {
+						let t1 = Math.floor(result[0] / 3600);
+						t1 < 10 ? t1 = "0" + t1 : t1 = "" + t1;
+						let t2 = Math.floor(result[0] / 60);
+						t2 < 10 ? t2 = "0" + t2 : t2 = "" + t2;
+						let t3 = Math.floor(result[0] % 60 * 10) / 10;
+						t3 < 10 ? t3 = "0" + t3 : t3 = "" + t3;
+						let t = t1 + ':' + t2 + ':' + t3
+						time_element.value = t;
+					});
+				}
+			}, false);
+			time2.addEventListener('click', function(event) {
+				if(event.shiftKey) {
+					event.preventDefault();
+					let time_element = this;
+					chrome.tabs.executeScript({ code: 
+					'document.querySelector("video").currentTime.toString();'
+					}, function(result) {
+						let t1 = Math.floor(result[0] / 3600);
+						t1 < 10 ? t1 = "0" + t1 : t1 = "" + t1;
+						let t2 = Math.floor(result[0] / 60);
+						t2 < 10 ? t2 = "0" + t2 : t2 = "" + t2;
+						let t3 = Math.floor(result[0] % 60 * 10) / 10;
+						t3 < 10 ? t3 = "0" + t3 : t3 = "" + t3;
+						let t = t1 + ':' + t2 + ':' + t3
+						time_element.value = t;
+					});
+				}
+			}, false);
 			time_controls.innerText="Jump 2s Before";
 			time_controls.addEventListener('click', function() {
 				if(!isNaN(time_to_int(time1.value))) {
@@ -355,7 +435,17 @@ function addColor(c1, c2) {
 		onClose: function() {
 			document.body.style.height = "";
 		}
-	});	
+	});
+	color1.firstElementChild.addEventListener('mousedown', function(event) {
+		if(event.button === 1 && event.shiftKey) {
+			event.preventDefault();
+			copied_color = this.value;
+		} else if(event.button === 1) {
+			event.preventDefault();
+			this.value = copied_color;
+			this.style.backgroundColor = copied_color;
+		}
+	});
 	
 	space_span.style.whiteSpace="pre";
 	space_span.innerText="   ";
@@ -385,7 +475,17 @@ function addColor(c1, c2) {
 		onClose: function() {
 			document.body.style.height = "";
 		}
-	});	
+	});
+	color2.firstElementChild.addEventListener('mousedown', function(event) {
+		if(event.button === 1 && event.shiftKey) {
+			event.preventDefault();
+			copied_color = this.value;
+		} else if(event.button === 1) {
+			event.preventDefault();
+			this.value = copied_color;
+			this.style.backgroundColor = copied_color;
+		}
+	});
 	
 	space_span2.style.whiteSpace="pre";
 	space_span2.innerText="   ";
@@ -550,7 +650,7 @@ document.getElementById('default-set-button').addEventListener('click', function
 	document.getElementById('background-color-reference').value = p.children[4].firstElementChild.value;
 }, false);
 
-document.getElementById('saved-colors').addEventListener('input', function() {
+document.getElementById('saved-colors').addEventListener('change', function() {
 	let list = document.getElementById('color-list');
 	if(this.value !== "") {
 		console.log(this.value);
@@ -569,9 +669,19 @@ document.getElementById('saved-colors').addEventListener('input', function() {
 	}
 }, false);
 
-document.getElementById('saved-colors').addEventListener('focus', function() {
-	this.selectedIndex = "0";
-}, false);
+try {
+	browser.runtime.getBrowserInfo();
+	document.getElementById('saved-colors').addEventListener('focus', function() {
+		if(this.selectedIndex !== 0) {
+			this.selectedIndex = 0;
+			this.blur();
+		}
+	}, false);
+} catch(e) {
+	document.getElementById('saved-colors').addEventListener('focus', function() {
+		this.selectedIndex = 0;
+	}, false);
+}
 
 document.getElementById('add-color-button').addEventListener('click', function() {
 	let list = document.getElementById('color-list');

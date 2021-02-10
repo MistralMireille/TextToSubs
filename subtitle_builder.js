@@ -96,8 +96,8 @@ function addSubtitleBox() {
 		});
 		time1.type="text";
 		time2.type="text";
-		time1.size="6";
-		time2.size="6";
+		time1.size="8";
+		time2.size="8";
 		time1.addEventListener('mousedown', function(event) {
 			if(event.button === 1) {
 				event.preventDefault();
@@ -276,8 +276,8 @@ function restoreSubtitleBox() {
 			
 			time1.type="text";
 			time2.type="text";
-			time1.size="6";
-			time2.size="6";
+			time1.size="8";
+			time2.size="8";
 			time1.value = content_array[2];
 			time2.value = content_array[3];
 			time1.addEventListener('mousedown', function(event) {

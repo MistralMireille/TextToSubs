@@ -139,7 +139,7 @@ function addSubtitleBox() {
 			if(!isNaN(time_to_int(time1.value))) {
 				chrome.tabs.executeScript({ code: 'document.querySelector("video").currentTime = (parseFloat(' + time_to_int(time1.value).toString() + ') - 2).toString();' });
 			} else {
-				alert("Something went wrong.");
+				alert("Invalid time.");
 			}
 		}, false);
 		play_pause.innerText="Play/Pause";
@@ -321,7 +321,7 @@ function restoreSubtitleBox() {
 				if(!isNaN(time_to_int(time1.value))) {
 					chrome.tabs.executeScript({ code: 'document.querySelector("video").currentTime = (parseFloat(' + time_to_int(time1.value).toString() + ') - 2).toString();' });
 				} else {
-					alert("Something went wrong.");
+					alert("Invalid time.");
 				}
 			}, false);
 			play_pause.innerText="Play/Pause";

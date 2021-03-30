@@ -557,7 +557,7 @@ function shipSubtitleBox() {
 	for(i = 0; i < container.childElementCount; i++) {
 		let sub = container.children[i];
 		let tmp = "";
-		tmp += sub.children[2].value + " " + sub.children[3].value + "\n" + ((sub.children[0].value === "#ffffff") ? "" : "<" + sub.children[0].value + ">") + ((sub.children[1].value === "#000000") ? "" : "<" + sub.children[1].value + ">") + sub.children[8].value;
+		tmp += sub.children[2].value + " " + sub.children[3].value + "\n" + ((sub.children[0].value === "#ffffff" && sub.children[1].value === "#000000") ? "" : "<" + sub.children[0].value + ">") + ((sub.children[0].value === "#ffffff" && sub.children[1].value === "#000000") ? "" : "<" + sub.children[1].value + ">") + sub.children[8].value;
 		if(verify_file(tmp)) {
 			s += tmp;
 			s += "\n\n";
@@ -613,7 +613,7 @@ document.getElementById('add-textbox').addEventListener('click', function() {
 	for(i = 0; i < container.childElementCount; i++) {
 		let sub = container.children[i];
 		let tmp = "";
-		tmp += sub.children[2].value + " " + sub.children[3].value + "\n" + ((sub.children[0].value === "#ffffff") ? "" : "<" + sub.children[0].value + ">") + ((sub.children[1].value === "#000000") ? "" : "<" + sub.children[1].value + ">") + sub.children[8].value;
+		tmp += sub.children[2].value + " " + sub.children[3].value + "\n" + ((sub.children[0].value === "#ffffff" && sub.children[1].value === "#000000") ? "" : "<" + sub.children[0].value + ">") + ((sub.children[0].value === "#ffffff" && sub.children[1].value === "#000000") ? "" : "<" + sub.children[1].value + ">") + sub.children[8].value;
 		if(verify_file(tmp)) {
 			s += tmp;
 			s += "\n\n";

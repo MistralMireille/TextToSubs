@@ -578,11 +578,30 @@ function addTestSubtitles() {
 function firstTimeSubtitleBuild() {
 	let s = shipSubtitleBox();
 	if(s.length !== 0) {
-		chrome.tabs.executeScript({
-			code: 'let textContent = ' + JSON.stringify(shipSubtitleBox()) + ';'
-		}, function() {
-			chrome.tabs.executeScript({file: 'content.js'});
+		let setting1, setting2, setting3;
+		chrome.storage.local.get(['settings'], function(result) {
+			if(result.settings === undefined) {
+				chrome.storage.local.set({settings: ["Default", "Enabled", "4"]});
+				setting1 = "Default";
+				setting2 = "Enabled";
+				setting3 = "4";
+			} else {
+				setting1 = result.settings[0];
+				setting2 = result.settings[1];
+				setting3 = result.settings[2];
+			}				
+			
+			chrome.tabs.executeScript({
+				code: 
+					'let textContent = ' + JSON.stringify(shipSubtitleBox()) + ';' +
+					'let sub_style = "' + setting1 + '";' + 
+					'let colors_enabled = ' + (setting2 === "Enabled" ? "true" : "false") + ';' + 
+					'let font_default_size = ' + setting3 + ';'
+			}, function() {
+				chrome.tabs.executeScript({file: 'content.js'});
+			});
 		});
+		
 	}
 }
 
@@ -670,7 +689,7 @@ document.getElementById('saved-colors').addEventListener('change', function() {
 }, false);
 
 try {
-	browser.runtime.getBrowserInfo();
+	browser.runtime.getBrowserInfo(); // Throws an error on Chrome but not FireFox.
 	document.getElementById('saved-colors').addEventListener('focus', function() {
 		if(this.selectedIndex !== 0) {
 			this.selectedIndex = 0;
@@ -700,6 +719,7 @@ document.getElementById('save-colors-button').addEventListener('click', function
 			
 			chrome.storage.local.get(['color_storage_keys'], function(result) {
 				let temp_array = result.color_storage_keys;
+				if(temp_array === undefined) temp_array = [];
 				if(temp_array.includes(name)) {
 					alert("That name is already used by another color.");
 				} else if(temp_array.length >= 10) {

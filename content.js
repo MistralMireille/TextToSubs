@@ -79,34 +79,36 @@ function populate_drivers(file_as_string) {
 			ele = document.createElement("P");
 			ele.style.bottom = "1%";
 			ele.style.color="white";
-			if(CSS.supports("-moz-user-select", "text")) {
+			if(CSS.supports("-moz-user-select", "text") && sub_style !== "Default") {
 				ele.style.paintOrder="stroke";
 				ele.style.webkitTextStrokeColor="black";
 				ele.style.webkitTextStrokeWidth=(0.01 * video_player.offsetHeight) + "px";
 			} else {
 				ele.style.backgroundColor="rgba(0,0,0,0.5)";
 			}
-			ele.style.fontSize=(0.04 * video_player.offsetHeight) + "px"; // was 60px
+			ele.style.fontSize=(font_default_size / 100 * video_player.offsetHeight) + "px"; // was 60px
 			ele.style.maxWidth="95%";
 			ele.style.whiteSpace="pre-wrap";
 			ele.style.textAlign="center";
 			ele.style.transition="all 0.1s";
 			let text_to_display = s.split("\n")[1].replace(/<br>/g, "\n").replace(/\\n/g, "\n");
 			let colors = text_to_display.match(/<#[0-9a-fA-F]{6}>/g);
-			if(colors && colors.length > 0) {
+			if(colors && colors.length > 0 && colors_enabled) {
 				let found_color;
 				found_color = colors[0].replace("<", "");
 				found_color = found_color.replace(">", "").toLowerCase();
 				if(colors[1]) {
 					let background_color = colors[1].replace("<", "");
 					background_color = background_color.replace(">", "").toLowerCase();
-					if(CSS.supports("-moz-user-select", "text"))
+					if(CSS.supports("-moz-user-select", "text") && sub_style !== "Default")
 						ele.style.webkitTextStrokeColor=background_color;
 					else
 						ele.style.backgroundColor="rgba("+parseInt("0x"+background_color.substring(1,3))+","+parseInt("0x"+background_color.substring(3,5))+","+parseInt("0x"+background_color.substring(5,7))+", 0.5)";
 				}
 				ele.style.color=found_color;
 				text_to_display = text_to_display.replace(/<#[0-9a-fA-F]{6}>/g, "");
+			} else if(colors && colors.length > 0) {
+				text_to_display = text_to_display.replace(/<#[0-9a-fA-F]{6}>/g, ""); // simple removes colors
 			}
 			ele.innerText= text_to_display;
 			
@@ -140,8 +142,8 @@ function main_loop() {
 	let i;
 	for(i = 0; i < element_drivers.length; i++) {
 		if(element_drivers[i].active(counter) && !element_drivers[i].shown) {
-			element_drivers[i].ele.style.fontSize = (0.04 * video_player.offsetHeight) + "px";
-			if(CSS.supports("-moz-user-select", "text")) element_drivers[i].ele.style.webkitTextStrokeWidth=(0.01 * video_player.offsetHeight) + "px";
+			element_drivers[i].ele.style.fontSize = (font_default_size / 100 * video_player.offsetHeight) + "px";
+			if(CSS.supports("-moz-user-select", "text") && sub_style !== "Default") element_drivers[i].ele.style.webkitTextStrokeWidth=(0.01 * video_player.offsetHeight) + "px";
 			addElement(element_drivers[i].ele);
 			element_drivers[i].shown = true;
 			centerElementHorizontally(element_drivers[i].ele, video_player);
@@ -170,8 +172,8 @@ function main_loop() {
 			}
 		} else if(element_drivers[i].active(counter) && element_drivers[i].shown) {
 			centerElementHorizontally(element_drivers[i].ele, video_player);
-			element_drivers[i].ele.style.fontSize = (0.04 * video_player.offsetHeight) + "px";
-			if(CSS.supports("-moz-user-select", "text")) element_drivers[i].ele.style.webkitTextStrokeWidth=(0.01 * video_player.offsetHeight) + "px";
+			element_drivers[i].ele.style.fontSize = (font_default_size / 100 * video_player.offsetHeight) + "px";
+			if(CSS.supports("-moz-user-select", "text") && sub_style !== "Default") element_drivers[i].ele.style.webkitTextStrokeWidth=(0.01 * video_player.offsetHeight) + "px";
 			if(bar_down) {
 				element_drivers[i].ele.style.bottom= (0.01 * video_player.offsetHeight) + element_drivers[i].moved_height + "px";
 			} else {
@@ -186,8 +188,8 @@ function main_loop_mobile() {
 	let i;
 	for(i = 0; i < element_drivers.length; i++) {
 		if(element_drivers[i].active(counter) && !element_drivers[i].shown) {
-			element_drivers[i].ele.style.fontSize = (0.04 * video_player.offsetHeight) + "px";
-			if(CSS.supports("-moz-user-select", "text")) element_drivers[i].ele.style.webkitTextStrokeWidth=(0.01 * video_player.offsetHeight) + "px";
+			element_drivers[i].ele.style.fontSize = (font_default_size / 100 * video_player.offsetHeight) + "px";
+			if(CSS.supports("-moz-user-select", "text") && sub_style !== "Default") element_drivers[i].ele.style.webkitTextStrokeWidth=(0.01 * video_player.offsetHeight) + "px";
 			addElement(element_drivers[i].ele);
 			element_drivers[i].shown = true;
 			centerElementHorizontally(element_drivers[i].ele, video_player);
@@ -215,8 +217,8 @@ function main_loop_mobile() {
 			}
 		} else if(element_drivers[i].active(counter) && element_drivers[i].shown) {
 			centerElementHorizontally(element_drivers[i].ele, video_player);
-			element_drivers[i].ele.style.fontSize = (0.04 * video_player.offsetHeight) + "px";
-			if(CSS.supports("-moz-user-select", "text")) element_drivers[i].ele.style.webkitTextStrokeWidth=(0.01 * video_player.offsetHeight) + "px";
+			element_drivers[i].ele.style.fontSize = (font_default_size / 100 * video_player.offsetHeight) + "px";
+			if(CSS.supports("-moz-user-select", "text") && sub_style !== "Default") element_drivers[i].ele.style.webkitTextStrokeWidth=(0.01 * video_player.offsetHeight) + "px";
 			element_drivers[i].ele.style.bottom= (0.01 * video_player.offsetHeight) + element_drivers[i].moved_height + "px";
 		}
 	}

@@ -5,10 +5,28 @@ let results_open = false;
 function insertScript() {
 	document.getElementById('add-button').removeEventListener('click', insertScript);
 	document.getElementById('add-button').addEventListener('click', errorText, false);
-	chrome.tabs.executeScript({
-		code: 'let textContent = ' + JSON.stringify(document.getElementById('text-area').value) + ';'
-	}, function() {
-		chrome.tabs.executeScript({file: 'content.js'});
+	
+	let setting1, setting2, setting3;
+	chrome.storage.local.get(['settings'], function(result) {
+		if(result.settings === undefined) {
+			chrome.storage.local.set({settings: ["Default", "Enabled", "4"]});
+			setting1 = "Default";
+			setting2 = "Enabled";
+			setting3 = "4";
+		} else {
+			setting1 = result.settings[0];
+			setting2 = result.settings[1];
+			setting3 = result.settings[2];
+		}			
+		chrome.tabs.executeScript({
+			code:
+				'let textContent = ' + JSON.stringify(document.getElementById('text-area').value) + ';' +
+				'let sub_style = "' + setting1 + '";' + 
+				'let colors_enabled = ' + (setting2 === "Enabled" ? "true" : "false") + ';' + 
+				'let font_default_size = ' + setting3 + ';'
+		}, function() {
+			chrome.tabs.executeScript({file: 'content.js'});
+		});
 	});
 }
 
@@ -35,13 +53,22 @@ function checkForText() {
 
 function showSB() {
 	bg.current_window = 1;
+	document.getElementById('settings-frame').style.display="none"; // Hides the settings window if it's open.
 	// document.getElementById('add-button').removeEventListener('click', insertScript);
 	// document.getElementById('add-button').addEventListener('click', errorText, false);
 	document.getElementById('main-frame').style.display = "none";
 	document.getElementById('subtitle-builder-frame').style.display = "block";
 }
 
+// Logs the local storage for testing purposes.
+function logStorage() {
+	chrome.storage.local.get(null, function(result) {
+		console.log(result);
+	});
+}
+
 function checkPrevious() {
+	//logStorage();
 	chrome.tabs.executeScript({file: 'find_and_report.js'});
 	if(bg.text_content && bg.text_content.length > 0) document.getElementById('text-area').value = bg.text_content;
 	if(bg.sub_list_checked && bg.sub_list.length > 0) checkMatch();
@@ -165,6 +192,38 @@ document.getElementById('decompress-text').addEventListener('click', decompressT
 document.getElementById('compress-text').addEventListener('click', compressText, false);
 document.getElementById('refresh-button').addEventListener('click', reloadPageAtTime, false);
 document.getElementById('string-builder-button').addEventListener('click', showSB, false);
+
+document.getElementById('settings-button').addEventListener('click', function() {	
+	// set the settings values from local storage
+	chrome.storage.local.get(['settings'], function(result) {
+		if(result.settings === undefined) {
+			chrome.storage.local.set({settings: ["Default", "Enabled", "4"]});
+			setting1 = "Default";
+			setting2 = "Enabled";
+			setting3 = "4";
+		} else {
+			setting1 = result.settings[0];
+			setting2 = result.settings[1];
+			setting3 = result.settings[2];
+		}			
+		document.getElementById('first-setting').value = setting1;
+		document.getElementById('second-setting').value = setting2;
+		document.getElementById('third-setting').value = setting3;
+		document.getElementById('settings-frame').style.display="block";
+	});
+}, false);
+
+document.getElementById('settings-close').addEventListener('click', function() {
+	document.getElementById('settings-frame').style.display="none";
+}, false);
+
+document.getElementById('settings-save-button').addEventListener('click', function() {
+	let temp_array = [];
+	temp_array.push(document.getElementById('first-setting').value);
+	temp_array.push(document.getElementById('second-setting').value);
+	temp_array.push(document.getElementById('third-setting').value);
+	chrome.storage.local.set({settings: temp_array});
+}, false);
 
 document.getElementById('return-to-main').addEventListener('click', function() {
 	bg.current_window = 0;

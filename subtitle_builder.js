@@ -593,7 +593,7 @@ function firstTimeSubtitleBuild() {
 			
 			chrome.tabs.executeScript({
 				code: 
-					'let textContent = ' + JSON.stringify(shipSubtitleBox()) + ';' +
+					'let textContent = ' + JSON.stringify(s) + ';' + // changed JSON.stringify(shipSubtitleBox()) to JSON.stringify(s)
 					'let sub_style = "' + setting1 + '";' + 
 					'let colors_enabled = ' + (setting2 === "Enabled" ? "true" : "false") + ';' + 
 					'let font_default_size = ' + setting3 + ';'

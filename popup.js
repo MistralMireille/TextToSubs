@@ -221,7 +221,11 @@ document.getElementById('settings-save-button').addEventListener('click', functi
 	let temp_array = [];
 	temp_array.push(document.getElementById('first-setting').value);
 	temp_array.push(document.getElementById('second-setting').value);
-	temp_array.push(document.getElementById('third-setting').value);
+	if(!isNaN(document.getElementById('third-setting').value) && parseInt(document.getElementById('third-setting').value) > 2 && parseInt(document.getElementById('third-setting').value) < 8) {
+		temp_array.push(document.getElementById('third-setting').value);
+	} else {
+		temp_array.push("4");
+	}
 	chrome.storage.local.set({settings: temp_array});
 }, false);
 

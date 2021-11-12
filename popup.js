@@ -122,7 +122,8 @@ function reloadPageAtTime() {
 function checkGitFile() {
 	if(!results_open) {
 		results_open = true;
-		let git_url_to_ask = "https://gitcdn.link/repo/MistralMireille/mistralmireille.github.io/master/links/" + video_id + ".txt";
+		//let git_url_to_ask = "https://gitcdn.link/repo/MistralMireille/mistralmireille.github.io/master/links/" + video_id + ".txt";
+		let git_url_to_ask = "https://raw.githubusercontent.com/MistralMireille/mistralmireille.github.io/master/links/" + video_id + ".txt";
 		let results_div = document.getElementById('found-subs');
 		let xml = new XMLHttpRequest();
 		function reqListener() {

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="default.css">
+		<title>TextToSubs Help</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+	</head>
+	<body>
+		<div id="root" class="flex-col flex-center-with-margin gray">
+			<h1 class="space-horizontally">TextToSubs Help</h1>
+			<hr class="space-horizontally">
+			<p class="space2-horizontally">TextToSubs is an extension that allows you to insert subtitles into a YouTube video by putting text into a textbox. Specifically, on a YouTube page with a video, clicking on the extension in the toolbar (or the address bar in FireFox) will bring up a menu that looks something like this:</p>
+			<img src="images/example1.png">
+			<p class="space2-horizontally">This page explains the five buttons: "Help", "Add subs to video.", "Compress current text.", "Decompress Current Text", and "Found Nothing". Also it goes over what the text box is for. If you want to learn about the String Builder (SB icon) which lets you add and test the timing of subtitiles, click <a href="sb_page.html">HERE</a>. The refresh icon simply refreshed the video at whatever its current time is.</p>
+			
+			<h2 class="space-horizontally no-margin-bottom">"Help" Button:</h2>
+			<hr class="space-horizontally">
+			<p class="space2-horizontally no-margin-top">The help button takes you here to this page so that you can learn how stuff works if you're confused.</p>
+			
+			<h2 class="space-horizontally no-margin-bottom">Text Box:</h2>
+			<hr class="space-horizontally">
+			<p class="space2-horizontally no-margin-top">The text box is where you type or paste the subtitles so that you can use the buttons: "Add subs to the video.", "Compress current text.", and "Decompress current text."<br> The text in this box has to be in a certain format in order to add subtitles to the video. The format requires a line that has the start time, a space, and then the end time. Then there has to be an enter. The next line below the time line should be the text to display at those times all on one line. To add a new subtitle after that, press enter twice, and then start again. Here's an example which you can copy and then paste into the text box yourself to give it a try:</p>
+			<div class="space-horizontally add-simple-border">
+				<p class="space2-horizontally">00:00:03 00:00:07.2<br>This is the first line of text. It appears between 3 seconds and 7.2 seconds.<br><br>00:00:07.8 00:00:12<br>This is the second string of text. Notice that the seconds can be defined up to the tenths place.</p>
+			</div>
+			<p class="space2-horizontally no-margin-top">You can also add colors to the subtitles. For instance if you want the subtitles above to be red with a white background, you would put <i><#ff0000><#000000></i> in front of the subtitles content. So "This is the first line of text." would become "<#ff0000><#000000>This is the first line of text.".
+			
+			<h2 class="space-horizontally no-margin-bottom">"Add subs to video." Button:</h2>
+			<hr class="space-horizontally">
+			<p class="space2-horizontally no-margin-top">The "Add subs to video." button lets you add the subs in the text box into the video assuming they are in the format described above. It's important to note that if you add subs, you won't be able to add subs a second time until you refresh the page or navigate away from YouTube and then go back to YouTube. If you try to, it'll complain in red text.</p>
+			
+			<h2 class="space-horizontally no-margin-bottom">"Compress current text." Button:</h2>
+			<hr class="space-horizontally">
+			<p class="space2-horizontally no-margin-top">The "Compress current text." button allows you to compress the current text using lz_string which is an open source javascript library made by pieroxy under an MIT license. You can find that license at the bottom of this page and in the source for this extension: <a href="https://github.com/MistralMireille/TextToSubs" rel="noopener norefferer">https://github.com/MistralMireille/TextToSubs</a>. It uses the UTF16 compression and decompression(i.e. "new LZString.compressToUTF16(string)" and "new LZString.decompressFromUTF16(string)"). The reason you might want to do this is if you can't fit a subtitle text file on a certain site. For instance, if you want to put your subtitle text file on pastebin, there's a 512kb limit. Therefore, if you need to put a sub file up on pastebin that is bigger than that, you can compress it and then upload it to pastebin.</p>
+			
+			<h2 class="space-horizontally no-margin-bottom">"Decompress current text." Button:</h2>
+			<hr class="space-horizontally">
+			<p class="space2-horizontally no-margin-top">The "Decompress current text." button decompresses text that was compressed with the lz_string library.</p>
+			
+			<h2 class="space-horizontally no-margin-bottom">"Found nothing." Button:</h2>
+			<hr class="space-horizontally">
+			<p class="space2-horizontally no-margin-top">The "Found nothing." button will appear if there is no file in "github.com/MistralMireille/mistralmireille.github.io/tree/master/links" corresponding to the id of the current YouTube video. If there is a file in there, for instance "kDOZGqsTCgw.txt", and it's in the right format, then the toolbar icon will change to green, the "Found nothing." button will become a green "Found stuff." button, and when you click it a menu will appear like so:</p>
+			
+			<img src="images/found_stuff.png">
+			<img src="images/stuff_bar.png">
+			<p class="space2-horizontally">This menu will allow the user to go to a location where a subtitle text file for that video can be found. If you want to make your own subtitle text file discoverable in this way, you have to create a github account, go to <a href="https://github.com/MistralMireille/mistralmireille.github.io/tree/master/links" rel="noopener norefferer">https://github.com/MistralMireille/mistralmireille.github.io/tree/master/links</a> while logged in, and press add file. The file name has to be the video id, which is the string in the url after "watch?v=", with a txt file type. The contents of the file have to look like this:</p>
+			<div class="space-horizontally add-simple-border">
+				<p class="space2-horizontally">Description for instance a name, language, and stuff<br>The link to the file</p>
+			</div>
+			<p class="space2-horizontally">If you want to try it yourself to see how it works when it's completed, go to this video <a href="https://www.youtube.com/watch?v=kDOZGqsTCgw" rel="noopener norefferer">https://www.youtube.com/watch?v=kDOZGqsTCgw</a>. The "Found stuff." button should let you see the link to a pastebin where you can copy the subtitle text file for this video. Here's a video where the second subtitle you can load has two speakers subtitled seperately and color is used to distinguish between them: <a href="https://www.youtube.com/watch?v=0-XRsrB7he4" rel="noopener norefferer">https://www.youtube.com/watch?v=0-XRsrB7he4</a>. Notice you can add color by putting <#a000a0> where a000a0 is the color you want the text to be. If you add two colors like this, the second color will become the background color of the text.</p>
+			
+			<h2 class="space-horizontally no-margin-bottom">MIT License for lz_string by pieroxy</h2>
+			<div class="space-horizontally add-simple-border">
+				<p class="space2-horizontally">
+					MIT License<br>
+					<br>
+					Copyright (c) 2013 pieroxy<br>
+					<br>
+					Permission is hereby granted, free of charge, to any person obtaining a copy<br>
+					of this software and associated documentation files (the "Software"), to deal<br>
+					in the Software without restriction, including without limitation the rights<br>
+					to use, copy, modify, merge, publish, distribute, sublicense, and/or sell<br>
+					copies of the Software, and to permit persons to whom the Software is<br>
+					furnished to do so, subject to the following conditions:<br>
+					<br>
+					The above copyright notice and this permission notice shall be included in all<br>
+					copies or substantial portions of the Software.<br>
+					<br>
+					THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR<br>
+					IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,<br>
+					FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE<br>
+					AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER<br>
+					LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,<br>
+					OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE<br>
+					SOFTWARE.
+				</p>
+			</div>
+			<h2 class="space-horizontally no-margin-bottom">ISC License for vanilla picker by Andreas Borgen, Adam Brooks.</h2>
+			<div class="space-horizontally add-simple-border">
+				<p class="space2-horizontally">
+					ISC License (ISC)<br>
+					Copyright 2017-2018 Andreas Borgen, Adam Brooks<br>
+					<br>
+					Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted, provided that the above copyright notice and this permission notice appear in all copies.<br>
+					<br>
+					THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+				</p>
+			</div>
+		</div>
+	<body>
+</html>

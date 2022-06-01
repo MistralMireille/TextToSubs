@@ -28,7 +28,7 @@ function getSubList(tabId, current_id) {
 		if(sub_list.includes(current_id)) chrome.pageAction.setIcon({tabId: tabId, path: 'icons/foundStuff.png'});
 	}
 	xml.addEventListener('load', reqListener);
-	xml.open('GET', "https://api.github.com/repos/MistralMireille/mistralmireille.github.io/contents/links"); 
+	xml.open('GET', "https://api.github.com/repos/MistralMireille/TextToSubs/contents/links");
 	xml.send();
 }
 
